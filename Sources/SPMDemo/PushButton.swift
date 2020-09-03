@@ -29,7 +29,7 @@ public class PushButton: UIButton {
       return bounds.height / 2
     }
 
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         let path = UIBezierPath(ovalIn: rect)
         //UIColor.blue.setFill()
         fillColor.setFill()

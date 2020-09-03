@@ -33,7 +33,7 @@ public class CounterView: UIView {
     @IBInspectable var outlineColor: UIColor = UIColor.blue
     @IBInspectable var counterColor: UIColor = UIColor.orange
   
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         // 1 Define the center point you’ll rotate the arc around.
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
 
