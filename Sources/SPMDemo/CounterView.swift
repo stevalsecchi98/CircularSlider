@@ -103,6 +103,7 @@ public class CounterView: UIView {
         endAngle: outlineEndAngle,
         clockwise: true)
         
+        outlineColor.setStroke()
         insidePath.lineWidth = CGFloat(76.0)
         insidePath.stroke()
         
