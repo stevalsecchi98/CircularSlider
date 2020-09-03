@@ -14,7 +14,7 @@ public class CounterView: UIView {
     
     private struct Constants {
         static let numberOfGlasses = 8
-        static let lineWidth: CGFloat = 39 // 5.0
+        static let lineWidth: CGFloat = 38 // 5.0
         static let arcWidth: CGFloat = 76
     
         static var halfOfLineWidth: CGFloat {
@@ -71,13 +71,6 @@ public class CounterView: UIView {
         let outerArcRadius = bounds.width/2 - Constants.halfOfLineWidth
         let outlinePath = UIBezierPath(
           arcCenter: center,
-          radius: radius/2 - Constants.arcWidth/2,
-          startAngle: startAngle,
-          endAngle: endAngle,
-          clockwise: true)
-            
-            /*UIBezierPath(
-          arcCenter: center,
           radius: outerArcRadius,
           startAngle: startAngle,
           endAngle: outlineEndAngle,
@@ -90,7 +83,7 @@ public class CounterView: UIView {
           radius: innerArcRadius,
           startAngle: outlineEndAngle,
           endAngle: startAngle,
-          clockwise: false) */
+          clockwise: false)
             
         //4 - close the path
         outlinePath.close()
