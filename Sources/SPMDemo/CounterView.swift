@@ -7,8 +7,7 @@
 //
 
 import Foundation
-
-#if canImport(UIKit)
+import UIKit
 
 @IBDesignable
 class CounterView: UIView {
@@ -97,4 +96,3 @@ class CounterView: UIView {
     }
 }
 
-#endif

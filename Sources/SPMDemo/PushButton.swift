@@ -7,8 +7,7 @@
 //
 
 import Foundation
-
-#if canImport(UIKit)
+import UIKit
 
 @IBDesignable
 class PushButton: UIButton {
@@ -70,4 +69,3 @@ class PushButton: UIButton {
     }
 }
 
-#endif
