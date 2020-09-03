@@ -57,7 +57,7 @@ public class CounterView: UIView {
         counterColor.setStroke()
         path.stroke()
         
-        //Draw the outline
+        //DRAW THE OUTLINE
 
         //1 - first calculate the difference between the two angles
         //ensuring it is positive
@@ -71,7 +71,7 @@ public class CounterView: UIView {
         let outerArcRadius = bounds.width/2 - Constants.halfOfLineWidth
         let outlinePath = UIBezierPath(
           arcCenter: center,
-          radius: outerArcRadius,
+          radius: radius/2 - Constants.arcWidth/2, //outerArcRadius
           startAngle: startAngle,
           endAngle: outlineEndAngle,
           clockwise: true)
@@ -94,7 +94,7 @@ public class CounterView: UIView {
         outlinePath.lineWidth = Constants.lineWidth
         outlinePath.stroke()
         
-        // Counter View markers
+        // COUNTER VIEW MARKERS
         guard let context = UIGraphicsGetCurrentContext() else {
           return
         }
