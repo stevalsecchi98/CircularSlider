@@ -71,6 +71,13 @@ public class CounterView: UIView {
         let outerArcRadius = bounds.width/2 - Constants.halfOfLineWidth
         let outlinePath = UIBezierPath(
           arcCenter: center,
+          radius: radius/2 - Constants.arcWidth/2,
+          startAngle: startAngle,
+          endAngle: endAngle,
+          clockwise: true)
+            
+            /*UIBezierPath(
+          arcCenter: center,
           radius: outerArcRadius,
           startAngle: startAngle,
           endAngle: outlineEndAngle,
@@ -83,7 +90,7 @@ public class CounterView: UIView {
           radius: innerArcRadius,
           startAngle: outlineEndAngle,
           endAngle: startAngle,
-          clockwise: false)
+          clockwise: false) */
             
         //4 - close the path
         outlinePath.close()
