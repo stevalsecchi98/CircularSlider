@@ -18,7 +18,7 @@ public class CounterView: UIView {
         static let arcWidth: CGFloat = 76
     
         static var halfOfLineWidth: CGFloat {
-            return lineWidth / 4  // 2
+            return lineWidth / 1  // 2
         }
     }
   
