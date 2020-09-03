@@ -67,6 +67,7 @@ public class CounterView: UIView {
         //then multiply out by the actual glasses drunk
         let outlineEndAngle = arcLengthPerGlass * CGFloat(counter) + startAngle
 
+        /*
         //2 - draw the outer arc
         let outerArcRadius = bounds.width/2 - Constants.halfOfLineWidth
         let outlinePath = UIBezierPath(
@@ -91,6 +92,7 @@ public class CounterView: UIView {
         outlineColor.setStroke()
         outlinePath.lineWidth = Constants.lineWidth
         outlinePath.stroke()
+        */
         
         // try to create an inside arc
         // radius is the same as main path
@@ -101,7 +103,7 @@ public class CounterView: UIView {
         endAngle: outlineEndAngle,
         clockwise: true)
         
-        insidePath.lineWidth = CGFloat(66.0)
+        insidePath.lineWidth = CGFloat(76.0)
         insidePath.stroke()
         
         // COUNTER VIEW MARKERS
