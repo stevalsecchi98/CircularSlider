@@ -103,7 +103,6 @@ public class CounterView: UIView {
         
         insidePath.close()
         
-        insideColor.setStroke()
         insidePath.lineWidth = CGFloat(66.0)
         insidePath.stroke()
         
