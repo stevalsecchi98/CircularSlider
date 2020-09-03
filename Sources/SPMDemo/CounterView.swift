@@ -71,15 +71,13 @@ public class CounterView: UIView {
         let outerArcRadius = bounds.width/2 - Constants.halfOfLineWidth
         let outlinePath = UIBezierPath(
           arcCenter: center,
-          radius: radius/2 - Constants.arcWidth/2, //outerArcRadius
+          radius: outerArcRadius,
           startAngle: startAngle,
           endAngle: outlineEndAngle,
           clockwise: true)
 
         //3 - draw the inner arc
-        let innerArcRadius = bounds.width/2 - Constants.arcWidth
-          + Constants.halfOfLineWidth
-
+        let innerArcRadius = bounds.width/2 - Constants.arcWidth + Constants.halfOfLineWidth
         outlinePath.addArc(
           withCenter: center,
           radius: innerArcRadius,
@@ -91,7 +89,7 @@ public class CounterView: UIView {
         outlinePath.close()
             
         outlineColor.setStroke()
-        outlinePath.lineWidth = Constants.lineWidth
+        outlinePath.lineWidth = Constants.arcWidth //lineWidth
         outlinePath.stroke()
         
         // COUNTER VIEW MARKERS
