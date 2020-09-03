@@ -76,8 +76,8 @@ public class CounterView: UIView {
           endAngle: outlineEndAngle,
           clockwise: true)
 
-        //3 - draw the inner arc
-        let innerArcRadius = bounds.width/2 - Constants.arcWidth + Constants.halfOfLineWidth
+        //3 - draw the inner arc         /2
+        let innerArcRadius = bounds.width - Constants.arcWidth + Constants.halfOfLineWidth
         outlinePath.addArc(
           withCenter: center,
           radius: innerArcRadius,
@@ -89,7 +89,7 @@ public class CounterView: UIView {
         outlinePath.close()
             
         outlineColor.setStroke()
-        outlinePath.lineWidth = Constants.arcWidth //lineWidth
+        outlinePath.lineWidth = Constants.lineWidth
         outlinePath.stroke()
         
         // COUNTER VIEW MARKERS
