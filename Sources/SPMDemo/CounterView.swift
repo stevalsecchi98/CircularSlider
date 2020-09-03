@@ -14,7 +14,7 @@ public class CounterView: UIView {
     
     private struct Constants {
         static let numberOfGlasses = 8
-        static let lineWidth: CGFloat = 38 // 5.0
+        static let lineWidth: CGFloat = 5.0
         static let arcWidth: CGFloat = 76
     
         static var halfOfLineWidth: CGFloat {
@@ -91,6 +91,21 @@ public class CounterView: UIView {
         outlineColor.setStroke()
         outlinePath.lineWidth = Constants.lineWidth
         outlinePath.stroke()
+        
+        // try to create an inside arc
+        // radius is the same as main path
+        let insidePath = UIBezierPath(
+        arcCenter: center,
+        radius: outerArcRadius,
+        startAngle: startAngle,
+        endAngle: outlineEndAngle,
+        clockwise: true)
+        
+        insidePath.close()
+        
+        insideColor.setStroke()
+        insidePath.lineWidth = CGFloat(66.0)
+        insidePath.stroke()
         
         // COUNTER VIEW MARKERS
         guard let context = UIGraphicsGetCurrentContext() else {
