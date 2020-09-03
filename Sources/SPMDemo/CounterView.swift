@@ -96,7 +96,7 @@ public class CounterView: UIView {
         // radius is the same as main path
         let insidePath = UIBezierPath(
         arcCenter: center,
-        radius: outerArcRadius,
+        radius: radius/2 - Constants.arcWidth/2,
         startAngle: startAngle,
         endAngle: outlineEndAngle,
         clockwise: true)
