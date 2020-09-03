@@ -12,8 +12,8 @@ import UIKit
 @IBDesignable
 public class PushButton: UIButton {
     
-    @IBInspectable var fillColor: UIColor = .systemBlue
-    @IBInspectable var isAddButton: Bool = true
+    @IBInspectable public var fillColor: UIColor = .systemBlue
+    @IBInspectable public var isAddButton: Bool = true
     
     private struct Constants {
         static let plusLineWidth: CGFloat = 3.0

@@ -22,7 +22,7 @@ public class CounterView: UIView {
         }
     }
   
-    @IBInspectable var counter: Int = 5 {
+    @IBInspectable public var counter: Int = 5 {
       didSet {
         if counter <=  Constants.numberOfGlasses {
           //the view needs to be refreshed
@@ -30,8 +30,8 @@ public class CounterView: UIView {
         }
       }
     }
-    @IBInspectable var outlineColor: UIColor = UIColor.blue
-    @IBInspectable var counterColor: UIColor = UIColor.orange
+    @IBInspectable public var outlineColor: UIColor = UIColor.blue
+    @IBInspectable public var counterColor: UIColor = UIColor.orange
   
     public override func draw(_ rect: CGRect) {
         // 1 Define the center point you’ll rotate the arc around.
