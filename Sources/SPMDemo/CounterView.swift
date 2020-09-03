@@ -14,7 +14,7 @@ public class CounterView: UIView {
     
     private struct Constants {
         static let numberOfGlasses = 8
-        static let lineWidth: CGFloat = 45.0 // 5.0
+        static let lineWidth: CGFloat = 35.0 // 5.0
         static let arcWidth: CGFloat = 76
     
         static var halfOfLineWidth: CGFloat {
