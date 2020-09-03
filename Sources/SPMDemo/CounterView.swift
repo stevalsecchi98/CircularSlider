@@ -14,7 +14,7 @@ public class CounterView: UIView {
     
     private struct Constants {
         static let numberOfGlasses = 8
-        static let lineWidth: CGFloat = 5.0
+        static let lineWidth: CGFloat = 20.0 // 5.0
         static let arcWidth: CGFloat = 76
     
         static var halfOfLineWidth: CGFloat {
@@ -76,8 +76,8 @@ public class CounterView: UIView {
           endAngle: outlineEndAngle,
           clockwise: true)
 
-        //3 - draw the inner arc         /2
-        let innerArcRadius = bounds.width - Constants.arcWidth + Constants.halfOfLineWidth
+        //3 - draw the inner arc
+        let innerArcRadius = bounds.width/2 - Constants.arcWidth + Constants.halfOfLineWidth
         outlinePath.addArc(
           withCenter: center,
           radius: innerArcRadius,
