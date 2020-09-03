@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 @IBDesignable
-class PushButton: UIButton {
+public class PushButton: UIButton {
     
     @IBInspectable var fillColor: UIColor = .systemBlue
     @IBInspectable var isAddButton: Bool = true

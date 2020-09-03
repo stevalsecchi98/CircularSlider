@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 @IBDesignable
-class CounterView: UIView {
+public class CounterView: UIView {
     
     private struct Constants {
         static let numberOfGlasses = 8
