@@ -85,11 +85,13 @@ public class PercentageView: UIView {
         
         
         // DRAW THE POINTER
-        let pointerRect = CGRect(x: insidePath.currentPoint.x - 15, y: insidePath.currentPoint.y - 15, width: 30, height: 30)
+        let pointerRect = CGRect(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2, width: Constants.arcWidth, height: Constants.arcWidth)
         let pointer = UIBezierPath(ovalIn: pointerRect)
         
         fillColor.setFill()
         pointer.fill()
         insidePath.append(pointer)
     }
+    
+    
 }
