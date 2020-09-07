@@ -35,11 +35,11 @@ public class PercentageView: UIView {
     @IBInspectable public var fillColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
    
     // position
-    public fileprivate(set) var pointerPosition: CGPoint = CGPoint(x: pointerX, y: pointerY)
+    public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
-            let hitView = self.view.hitTest(firstTouch.location(in: self.view), with: event)
+            let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
                 let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
@@ -52,7 +52,7 @@ public class PercentageView: UIView {
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
-            let hitView = self.view.hitTest(firstTouch.location(in: self.view), with: event)
+            let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
                 
