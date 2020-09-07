@@ -33,8 +33,11 @@ public class PercentageView: UIView {
     @IBInspectable public var counterColor: UIColor = UIColor.orange
     @IBInspectable public var fillColor: UIColor = .gray
     
-    // psition
-    @IBInspectable public var pointerPosition: CGPoint = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
+    
+    var pointerX : CGFloat?
+    var pointerY : CGFloat?
+    // position
+    public var pointerPosition: CGPoint = CGPoint(x: pointerX, y: pointerY)
     
     public override func draw(_ rect: CGRect) {
         
@@ -94,7 +97,10 @@ public class PercentageView: UIView {
         fillColor.setFill()
         pointer.fill()
         insidePath.append(pointer)
+        
+        // SET THE POSITION
+        pointerX = insidePath.currentPoint.x - Constants.arcWidth / 2
+        pointerY = insidePath.currentPoint.y - Constants.arcWidth / 2
     }
-    
     
 }
