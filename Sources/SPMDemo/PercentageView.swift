@@ -38,6 +38,7 @@ public class PercentageView: UIView {
     // position
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     
+    /*
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
@@ -45,27 +46,24 @@ public class PercentageView: UIView {
             if hitView === self {
                 let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
                 progress = CGFloat(percentage)
-            } else {
-                print("touch is outside")
             }
         }
-    }
+    } */
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
-                
                 if firstTouch.preciseLocation(in: hitView).x - pointerPosition.x < 30 && firstTouch.preciseLocation(in: hitView).y - pointerPosition.y < 30 {
                     let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
                     progress = CGFloat(percentage)
                 }
-            } else {
-                print("touch is outside")
             }
         }
     }
+    
+    
     
     public override func draw(_ rect: CGRect) {
         
