@@ -23,21 +23,48 @@ public class PercentageView: UIView {
     
     @IBInspectable public var progress: CGFloat = 0.65 {
       didSet {
-        if progress <=  Constants.max {
-          //the view needs to be refreshed
-          setNeedsDisplay()
+        if !(0...1).contains(progress) {
+            // clamp: if progress is over or less than 0 and 1
+            progress = max(0, min(1, progress))
         }
+        setNeedsDisplay()
       }
     }
-    @IBInspectable public var outlineColor: UIColor = UIColor.yellow
-    @IBInspectable public var counterColor: UIColor = UIColor.orange
-    @IBInspectable public var fillColor: UIColor = .gray
-    
-    
-    var pointerX : CGFloat?
-    var pointerY : CGFloat?
+    @IBInspectable public var outlineColor: UIColor = UIColor.yellow { didSet { setNeedsDisplay() } }
+    @IBInspectable public var counterColor: UIColor = UIColor.orange { didSet { setNeedsDisplay() } }
+    @IBInspectable public var fillColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
+   
     // position
-    public var pointerPosition: CGPoint = CGPoint(x: pointerX, y: pointerY)
+    public fileprivate(set) var pointerPosition: CGPoint = CGPoint(x: pointerX, y: pointerY)
+    
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let firstTouch = touches.first {
+            let hitView = self.view.hitTest(firstTouch.location(in: self.view), with: event)
+            
+            if hitView === self {
+                let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
+                progress = CGFloat(percentage)
+            } else {
+                print("touch is outside")
+            }
+        }
+    }
+    
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let firstTouch = touches.first {
+            let hitView = self.view.hitTest(firstTouch.location(in: self.view), with: event)
+            
+            if hitView === self {
+                
+                if firstTouch.preciseLocation(in: hitView).x - pointerPosition.x < 10 && firstTouch.preciseLocation(in: hitView).y - pointerPosition.y {
+                    let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
+                    progress = CGFloat(percentage)
+                }
+            } else {
+                print("touch is outside")
+            }
+        }
+    }
     
     public override func draw(_ rect: CGRect) {
         
@@ -99,8 +126,7 @@ public class PercentageView: UIView {
         insidePath.append(pointer)
         
         // SET THE POSITION
-        pointerX = insidePath.currentPoint.x - Constants.arcWidth / 2
-        pointerY = insidePath.currentPoint.y - Constants.arcWidth / 2
+        pointerPosition = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
     }
     
 }
