@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+@available(iOS 9.1, *)
 @IBDesignable
 public class PercentageView: UIView {
     
@@ -56,7 +57,7 @@ public class PercentageView: UIView {
             
             if hitView === self {
                 
-                if firstTouch.preciseLocation(in: hitView).x - pointerPosition.x < 10 && firstTouch.preciseLocation(in: hitView).y - pointerPosition.y {
+                if firstTouch.preciseLocation(in: hitView).x - pointerPosition.x < 10 && firstTouch.preciseLocation(in: hitView).y - pointerPosition.y < 10 {
                     let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
                     progress = CGFloat(percentage)
                 }
