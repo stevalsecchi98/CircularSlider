@@ -33,6 +33,9 @@ public class PercentageView: UIView {
     @IBInspectable public var counterColor: UIColor = UIColor.orange
     @IBInspectable public var fillColor: UIColor = .gray
     
+    // psition
+    public var pointerPosition: CGPoint = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
+    
     public override func draw(_ rect: CGRect) {
         
         // 1 Define the center point you’ll rotate the arc around.
