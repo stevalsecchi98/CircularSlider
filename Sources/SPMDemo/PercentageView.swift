@@ -34,7 +34,7 @@ public class PercentageView: UIView {
     @IBInspectable public var fillColor: UIColor = .gray
     
     // psition
-    public var pointerPosition: CGPoint = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
+    @IBInspectable public var pointerPosition: CGPoint = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
     
     public override func draw(_ rect: CGRect) {
         
