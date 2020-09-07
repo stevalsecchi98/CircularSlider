@@ -57,7 +57,7 @@ public class PercentageView: UIView {
             
             if hitView === self {
                 
-                if firstTouch.preciseLocation(in: hitView).x - pointerPosition.x < 20 && firstTouch.preciseLocation(in: hitView).y - pointerPosition.y < 20 {
+                if firstTouch.preciseLocation(in: hitView).x - pointerPosition.x < 30 && firstTouch.preciseLocation(in: hitView).y - pointerPosition.y < 30 {
                     let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
                     progress = CGFloat(percentage)
                 }
