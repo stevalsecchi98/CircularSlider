@@ -132,7 +132,7 @@ public class PercentageView: UIView {
         // DRAW THE PERCENTAGE LABEL
         let percentageLabelRect = CGRect(x: 173, y: 185, width: 60, height: 60)
         let percentageLabel = UILabel(frame: percentageLabelRect)
-        let percentage = Int(Double(percentageView.progress) * 100)
+        let percentage = Int(Double(progress * 100))
         percentageLabel.text = "\(percentage)%"
         
         // SET THE POSITION
