@@ -27,7 +27,6 @@ public class PercentageView: UIView {
         if !(0...1).contains(progress) {
             // clamp: if progress is over 1 or less than 0 give it a number
             progress = max(0, min(1, progress))
-            label()
         }
         setNeedsDisplay()
       }
@@ -81,6 +80,8 @@ public class PercentageView: UIView {
     }
     
     public override func draw(_ rect: CGRect) {
+        
+        label()
         
         // 1 Define the center point you’ll rotate the arc around.
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
