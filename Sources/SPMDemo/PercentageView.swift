@@ -27,6 +27,7 @@ public class PercentageView: UIView {
         if !(0...1).contains(progress) {
             // clamp: if progress is over 1 or less than 0 give it a number
             progress = max(0, min(1, progress))
+            label()
         }
         setNeedsDisplay()
       }
@@ -65,6 +66,17 @@ public class PercentageView: UIView {
                 progress = CGFloat(percentage)
             }
         }
+    }
+    
+    public func label() {
+        // DRAW THE PERCENTAGE LABEL
+        let percentageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        percentageLabel.center = CGPoint(x: 160, y: 285)
+        percentageLabel.textAlignment = .center
+        percentageLabel.text = "I'm a test label"
+        self.addSubview(percentageLabel)
+        let percentage = Int(Double(progress * 100))
+        percentageLabel.text = "\(percentage)%"
     }
     
     public override func draw(_ rect: CGRect) {
@@ -125,15 +137,6 @@ public class PercentageView: UIView {
         fillColor.setFill()
         pointer.fill()
         insidePath.append(pointer)
-        
-        // DRAW THE PERCENTAGE LABEL
-        let percentageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        percentageLabel.center = CGPoint(x: 160, y: 285)
-        percentageLabel.textAlignment = .center
-        percentageLabel.text = "I'm a test label"
-        self.addSubview(percentageLabel)
-        let percentage = Int(Double(progress * 100))
-        percentageLabel.text = "\(percentage)%"
         
         // SET THE POSITION
         pointerPosition = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
