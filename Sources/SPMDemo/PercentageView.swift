@@ -34,7 +34,7 @@ public class PercentageView: UIView {
     @IBInspectable public var outlineColor: UIColor = UIColor.yellow { didSet { setNeedsDisplay() } }
     @IBInspectable public var counterColor: UIColor = UIColor.orange { didSet { setNeedsDisplay() } }
     @IBInspectable public var fillColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
-    let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 21))
+    let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 40))
    
     // position
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
@@ -72,7 +72,7 @@ public class PercentageView: UIView {
         // DRAW THE PERCENTAGE LABEL
         percentageLabel.translatesAutoresizingMaskIntoConstraints = true
         percentageLabel.font.withSize(38)
-        percentageLabel.center = CGPoint(x: 135, y: 135)
+        percentageLabel.center = CGPoint(x: 115, y: 115)
         percentageLabel.textAlignment = .center
         self.addSubview(percentageLabel)
         let percentage = Int(Double(progress * 100))
