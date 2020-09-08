@@ -71,7 +71,7 @@ public class PercentageView: UIView {
     public func label() {
         // DRAW THE PERCENTAGE LABEL
         percentageLabel.translatesAutoresizingMaskIntoConstraints = true
-        percentageLabel.font.withSize(38)
+        percentageLabel.font = percentageLabel.font.withSize(38)
         percentageLabel.center = CGPoint(x: 115, y: 115)
         percentageLabel.textAlignment = .center
         self.addSubview(percentageLabel)
