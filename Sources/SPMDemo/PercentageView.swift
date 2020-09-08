@@ -71,7 +71,8 @@ public class PercentageView: UIView {
     public func label() {
         // DRAW THE PERCENTAGE LABEL
         let percentageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        percentageLabel.center = CGPoint(x: 160, y: 285)
+        percentageLabel.translatesAutoresizingMaskIntoConstraints = false
+        percentageLabel.center = CGPoint(x: 180, y: 150)
         percentageLabel.textAlignment = .center
         percentageLabel.text = "I'm a test label"
         self.addSubview(percentageLabel)
