@@ -129,6 +129,12 @@ public class PercentageView: UIView {
         pointer.fill()
         insidePath.append(pointer)
         
+        // DRAW THE PERCENTAGE LABEL
+        let percentageLabelRect = CGRect(x: 173, y: 185, width: 60, height: 60)
+        let percentageLabel = UILabel(frame: percentageLabelRect)
+        let percentage = Int(Double(percentageView.progress) * 100)
+        percentageLabel.text = "\(percentage)%"
+        
         // SET THE POSITION
         pointerPosition = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
     }
