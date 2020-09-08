@@ -70,10 +70,10 @@ public class PercentageView: UIView {
     
     public func label() {
         // DRAW THE PERCENTAGE LABEL
-        
         percentageLabel.translatesAutoresizingMaskIntoConstraints = false
+        percentageLabel.font.withSize(38)
+        percentageLabel.center = CGPoint(x: 200, y: 200)
         percentageLabel.textAlignment = .center
-        percentageLabel.text = "I'm a test label"
         self.addSubview(percentageLabel)
         let percentage = Int(Double(progress * 100))
         percentageLabel.text = "\(percentage)%"
