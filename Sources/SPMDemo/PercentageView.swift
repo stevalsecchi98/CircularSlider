@@ -72,7 +72,7 @@ public class PercentageView: UIView {
         // DRAW THE PERCENTAGE LABEL
         
         percentageLabel.translatesAutoresizingMaskIntoConstraints = false
-        percentageLabel.center = CGPoint(x: 180, y: 150)
+        percentageLabel.center = CGPoint(x: 200, y: 200)
         percentageLabel.textAlignment = .center
         percentageLabel.text = "I'm a test label"
         self.addSubview(percentageLabel)
