@@ -128,10 +128,10 @@ public class PercentageView: UIView {
         
         // DRAW THE PERCENTAGE LABEL
         let percentageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        label.center = CGPoint(x: 160, y: 285)
-        label.textAlignment = .center
-        label.text = "I'm a test label"
-        self.view.addSubview(label)
+        percentageLabel.center = CGPoint(x: 160, y: 285)
+        percentageLabel.textAlignment = .center
+        percentageLabel.text = "I'm a test label"
+        self.addSubview(percentageLabel)
         let percentage = Int(Double(progress * 100))
         percentageLabel.text = "\(percentage)%"
         
