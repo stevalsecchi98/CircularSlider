@@ -25,7 +25,7 @@ public class PercentageView: UIView {
     @IBInspectable public var progress: CGFloat = 0.65 {
       didSet {
         if !(0...1).contains(progress) {
-            // clamp: if progress is over or less than 0 and 1
+            // clamp: if progress is over 1 or less than 0 give it a number
             progress = max(0, min(1, progress))
         }
         setNeedsDisplay()
@@ -37,7 +37,6 @@ public class PercentageView: UIView {
    
     // position
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
-    
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
@@ -67,8 +66,6 @@ public class PercentageView: UIView {
             }
         }
     }
-    
-    
     
     public override func draw(_ rect: CGRect) {
         
@@ -130,8 +127,11 @@ public class PercentageView: UIView {
         insidePath.append(pointer)
         
         // DRAW THE PERCENTAGE LABEL
-        let percentageLabelRect = CGRect(x: 173, y: 185, width: 60, height: 60)
-        let percentageLabel = UILabel(frame: percentageLabelRect)
+        let percentageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        label.center = CGPoint(x: 160, y: 285)
+        label.textAlignment = .center
+        label.text = "I'm a test label"
+        self.view.addSubview(label)
         let percentage = Int(Double(progress * 100))
         percentageLabel.text = "\(percentage)%"
         
