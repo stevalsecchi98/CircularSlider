@@ -50,8 +50,31 @@ public class PercentageView: UIView {
                 var distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
                 
                 if distance > 30 {
-                    let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
-                    progress = CGFloat(percentage)
+                    let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+                    let radius = max(bounds.width, bounds.height)
+                    
+                    // FIND THE NEAREST POINT TO THE CIRCLE FROM THE TOUCH POSITION
+                    var pointX = center.x + radius * (firstTouch.preciseLocation(in: hitView).x - center.x / (pow((firstTouch.preciseLocation(in: hitView).x - center.x), 2) + pow((firstTouch.preciseLocation(in: hitView).y - center.y), 2)).squareRoot())
+                    var pointY = center.y + radius * (firstTouch.preciseLocation(in: hitView).y - center.y / (pow((firstTouch.preciseLocation(in: hitView).x - center.x), 2) + pow((firstTouch.preciseLocation(in: hitView).y - center.y), 2)).squareRoot())
+                    
+                    let pointPosition = CGPoint(x: pointX, y: pointY)
+                    
+                    let arcLength = (270 / 360) * (2 * CGFloat.pi * radius)
+                    print(arcLength)
+                    
+                    func rad2deg(_ number: Double) -> Double {
+                        return number * 180 / .pi
+                    }
+                    let theta : Double = rad2deg(atan2(Double(pointY) - Double(center.y), Double(pointX) - Double(center.x)))
+                    print(theta)
+                    
+                    let newArcLength = (CGFloat(theta) / 360) * (2 * CGFloat.pi * radius)
+                    print(newArcLength)
+                    
+                    let newPercentage = newArcLength/arcLength
+                    
+                    // let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
+                    progress = CGFloat(newPercentage)
                 }
             }
         }
@@ -80,7 +103,7 @@ public class PercentageView: UIView {
     }
     
     public override func draw(_ rect: CGRect) {
-        
+        // call label function
         label()
         
         // 1 Define the center point you’ll rotate the arc around.
@@ -131,7 +154,6 @@ public class PercentageView: UIView {
         insidePath.lineWidth = CGFloat(30.0)
         insidePath.stroke()
         
-        
         // DRAW THE POINTER
         let pointerRect = CGRect(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2, width: Constants.arcWidth, height: Constants.arcWidth)
         let pointer = UIBezierPath(ovalIn: pointerRect)
@@ -142,6 +164,10 @@ public class PercentageView: UIView {
         
         // SET THE POSITION
         pointerPosition = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
+        
+        // FIND THE NEAREST POINT TO THE CIRCLE FROM THE TOUCH POSITION
+        var pointX = center.x 
+        
+        
     }
-    
 }
