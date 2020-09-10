@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// PRCENTAGE VIEW
 @available(iOS 9.1, *)
 @IBDesignable
 public class PercentageView: UIView {
@@ -36,57 +37,146 @@ public class PercentageView: UIView {
     @IBInspectable public var fillColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
     let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 40))
    
-    // position
+    // POSITION
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     
+    /*
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
                 
-                var xDist = CGFloat(firstTouch.preciseLocation(in: hitView).x - pointerPosition.x)
-                var yDist = CGFloat(firstTouch.preciseLocation(in: hitView).y - pointerPosition.y)
-                var distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
+                let xDist = CGFloat(firstTouch.preciseLocation(in: hitView).x - pointerPosition.x)
+                let yDist = CGFloat(firstTouch.preciseLocation(in: hitView).y - pointerPosition.y)
+                let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
                 
                 if distance > 30 {
+                    
                     let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-                    let radius = max(bounds.width, bounds.height)
+                    let radiusBounds = max(bounds.width, bounds.height)
+                    let radius = radiusBounds/2 - Constants.arcWidth/2
+                    
+                    let touchX = firstTouch.preciseLocation(in: hitView).x
+                    let touchY = firstTouch.preciseLocation(in: hitView).y
                     
                     // FIND THE NEAREST POINT TO THE CIRCLE FROM THE TOUCH POSITION
-                    var pointX = center.x + radius * (firstTouch.preciseLocation(in: hitView).x - center.x / (pow((firstTouch.preciseLocation(in: hitView).x - center.x), 2) + pow((firstTouch.preciseLocation(in: hitView).y - center.y), 2)).squareRoot())
-                    var pointY = center.y + radius * (firstTouch.preciseLocation(in: hitView).y - center.y / (pow((firstTouch.preciseLocation(in: hitView).x - center.x), 2) + pow((firstTouch.preciseLocation(in: hitView).y - center.y), 2)).squareRoot())
+                    let dividendx = pow(touchX, 2) + pow(center.x, 2) - (2 * touchX * center.x)
+                    let dividendy = pow(touchY, 2) + pow(center.y, 2) - (2 * touchY * center.y)
+                    let dividend = sqrt(abs(dividendx) + abs(dividendy))
+                    print("dividend: \(dividend)")
                     
-                    let pointPosition = CGPoint(x: pointX, y: pointY)
+                    let pointX = center.x + ((radius * (touchX - center.x)) / dividend)
+                    let pointY = center.y + ((radius * (touchY - center.y)) / dividend)
                     
-                    let arcLength = (270 / 360) * (2 * CGFloat.pi * radius)
-                    print(arcLength)
+                    print("touch x: \(touchX)")
+                    print("touch y: \(touchY)")
+                    print("point x: \(pointX)")
+                    print("point y: \(pointY)")
                     
-                    func rad2deg(_ number: Double) -> Double {
-                        return number * 180 / .pi
+                    let isOnCircle = dividendx + dividendy == pow(radius, 2)
+                    print("isOnCircle: \(isOnCircle)")
+                    
+                    // ARC LENGTH
+                    let arcAngle: CGFloat = (2 * .pi) + (.pi / 4) - (3 * .pi / 4)
+                    let arcLength =  arcAngle * radius // (arcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
+                    print("ArcLength: \(arcLength)")
+                    
+                    // NEW ARC LENGTH
+                    
+                    let xForTheta = Double(pointX) - Double(center.x)
+                    let yForTheta = Double(pointY) - Double(center.y)
+                    var theta : Double = atan2(yForTheta, xForTheta) - (3 * .pi / 4)
+                    
+                    if theta < 0 {
+                        theta += 2 * .pi
                     }
-                    let theta : Double = rad2deg(atan2(Double(pointY) - Double(center.y), Double(pointX) - Double(center.x)))
-                    print(theta)
+                    print("theta : \(theta)")
                     
-                    let newArcLength = (CGFloat(theta) / 360) * (2 * CGFloat.pi * radius)
-                    print(newArcLength)
+                    var newArcLength =  CGFloat(theta) * radius // (newArcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
+                    print("newArcLength: \(newArcLength)")
                     
+                    if 480.0 ... 550.0 ~= newArcLength {
+                        newArcLength = 480
+                    }
+                    if 550.0 ... 630.0 ~= newArcLength {
+                        newArcLength = 0
+                    }
+                    
+                    // PERCENTAGE
                     let newPercentage = newArcLength/arcLength
-                    
-                    // let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
                     progress = CGFloat(newPercentage)
                 }
             }
         }
-    }
+    } */
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
-                let percentage = Double(firstTouch.preciseLocation(in: hitView).x) / 228
-                progress = CGFloat(percentage)
+                
+                let xDist = CGFloat(firstTouch.preciseLocation(in: hitView).x - pointerPosition.x)
+                let yDist = CGFloat(firstTouch.preciseLocation(in: hitView).y - pointerPosition.y)
+                let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
+                
+                if distance < 30 {
+                
+                    let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+                    let radiusBounds = max(bounds.width, bounds.height)
+                    let radius = radiusBounds/2 - Constants.arcWidth/2
+                    
+                    let touchX = firstTouch.preciseLocation(in: hitView).x
+                    let touchY = firstTouch.preciseLocation(in: hitView).y
+                    
+                    // FIND THE NEAREST POINT TO THE CIRCLE FROM THE TOUCH POSITION
+                    let dividendx = pow(touchX, 2) + pow(center.x, 2) - (2 * touchX * center.x)
+                    let dividendy = pow(touchY, 2) + pow(center.y, 2) - (2 * touchY * center.y)
+                    let dividend = sqrt(abs(dividendx) + abs(dividendy))
+                    print("dividend: \(dividend)")
+                    
+                    let pointX = center.x + ((radius * (touchX - center.x)) / dividend)
+                    let pointY = center.y + ((radius * (touchY - center.y)) / dividend)
+                    
+                    print("touch x: \(touchX)")
+                    print("touch y: \(touchY)")
+                    print("point x: \(pointX)")
+                    print("point y: \(pointY)")
+                    
+                    let isOnCircle = dividendx + dividendy == pow(radius, 2)
+                    print("isOnCircle: \(isOnCircle)")
+                    
+                    // ARC LENGTH
+                    let arcAngle: CGFloat = (2 * .pi) + (.pi / 4) - (3 * .pi / 4)
+                    let arcLength =  arcAngle * radius // (arcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
+                    print("ArcLength: \(arcLength)")
+                    
+                    // NEW ARC LENGTH
+                    
+                    let xForTheta = Double(pointX) - Double(center.x)
+                    let yForTheta = Double(pointY) - Double(center.y)
+                    var theta : Double = atan2(yForTheta, xForTheta) - (3 * .pi / 4)
+                    
+                    if theta < 0 {
+                        theta += 2 * .pi
+                    }
+                    print("theta : \(theta)")
+                    
+                    var newArcLength =  CGFloat(theta) * radius // (newArcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
+                    print("newArcLength: \(newArcLength)")
+                    
+                    if 480.0 ... 550.0 ~= newArcLength {
+                        newArcLength = 480
+                    }
+                    if 550.0 ... 630.0 ~= newArcLength {
+                        newArcLength = 0
+                    }
+                    
+                    // PERCENTAGE
+                    let newPercentage = newArcLength/arcLength
+                    progress = CGFloat(newPercentage)
+                }
             }
         }
     }
@@ -164,10 +254,5 @@ public class PercentageView: UIView {
         
         // SET THE POSITION
         pointerPosition = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
-        
-        // FIND THE NEAREST POINT TO THE CIRCLE FROM THE TOUCH POSITION
-        var pointX = center.x 
-        
-        
     }
 }
