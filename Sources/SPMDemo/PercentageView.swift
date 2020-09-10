@@ -40,7 +40,6 @@ public class PercentageView: UIView {
     // POSITION
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     
-    /*
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
@@ -52,64 +51,13 @@ public class PercentageView: UIView {
                 let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
                 
                 if distance > 30 {
-                    
-                    let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-                    let radiusBounds = max(bounds.width, bounds.height)
-                    let radius = radiusBounds/2 - Constants.arcWidth/2
-                    
-                    let touchX = firstTouch.preciseLocation(in: hitView).x
-                    let touchY = firstTouch.preciseLocation(in: hitView).y
-                    
-                    // FIND THE NEAREST POINT TO THE CIRCLE FROM THE TOUCH POSITION
-                    let dividendx = pow(touchX, 2) + pow(center.x, 2) - (2 * touchX * center.x)
-                    let dividendy = pow(touchY, 2) + pow(center.y, 2) - (2 * touchY * center.y)
-                    let dividend = sqrt(abs(dividendx) + abs(dividendy))
-                    print("dividend: \(dividend)")
-                    
-                    let pointX = center.x + ((radius * (touchX - center.x)) / dividend)
-                    let pointY = center.y + ((radius * (touchY - center.y)) / dividend)
-                    
-                    print("touch x: \(touchX)")
-                    print("touch y: \(touchY)")
-                    print("point x: \(pointX)")
-                    print("point y: \(pointY)")
-                    
-                    let isOnCircle = dividendx + dividendy == pow(radius, 2)
-                    print("isOnCircle: \(isOnCircle)")
-                    
-                    // ARC LENGTH
-                    let arcAngle: CGFloat = (2 * .pi) + (.pi / 4) - (3 * .pi / 4)
-                    let arcLength =  arcAngle * radius // (arcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
-                    print("ArcLength: \(arcLength)")
-                    
-                    // NEW ARC LENGTH
-                    
-                    let xForTheta = Double(pointX) - Double(center.x)
-                    let yForTheta = Double(pointY) - Double(center.y)
-                    var theta : Double = atan2(yForTheta, xForTheta) - (3 * .pi / 4)
-                    
-                    if theta < 0 {
-                        theta += 2 * .pi
-                    }
-                    print("theta : \(theta)")
-                    
-                    var newArcLength =  CGFloat(theta) * radius // (newArcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
-                    print("newArcLength: \(newArcLength)")
-                    
-                    if 480.0 ... 550.0 ~= newArcLength {
-                        newArcLength = 480
-                    }
-                    if 550.0 ... 630.0 ~= newArcLength {
-                        newArcLength = 0
-                    }
-                    
-                    // PERCENTAGE
-                    let newPercentage = newArcLength/arcLength
-                    progress = CGFloat(newPercentage)
+                    self.isUserInteractionEnabled = false
+                } else {
+                    self.isUserInteractionEnabled = true
                 }
             }
         }
-    } */
+    }
     
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
