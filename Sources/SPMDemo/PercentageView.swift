@@ -190,7 +190,7 @@ public class PercentageView: UIView {
         endAngle: outlineEndAngle,
         clockwise: true)
         
-        outlineColor.setStroke()
+        //outlineColor.setStroke()
         insidePath.lineCapStyle = .round
         insidePath.lineWidth = CGFloat(30.0)
         insidePath.stroke()
