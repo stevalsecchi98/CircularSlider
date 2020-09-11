@@ -34,13 +34,16 @@ public class PercentageView: UIView {
     }
     @IBInspectable public var outlineColor: UIColor = UIColor.yellow { didSet { setNeedsDisplay() } }
     @IBInspectable public var counterColor: UIColor = UIColor.orange { didSet { setNeedsDisplay() } }
-    @IBInspectable public var fillColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
+    @IBInspectable public var knobColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
     let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 40))
    
     // POSITION
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     
+    // boolean which chooses if the knob can be dragged or not
     var canDrag = false
+    // variable that stores the lenght of the arc based on the last touch
+    var oldLength : CGFloat = 300
     
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -110,10 +113,15 @@ public class PercentageView: UIView {
                     
                     if 480.0 ... 550.0 ~= newArcLength {
                         newArcLength = 480
-                    }
-                    if 550.0 ... 630.0 ~= newArcLength {
+                    } else if 550.0 ... 630.0 ~= newArcLength {
                         newArcLength = 0
                     }
+                    if oldLength == 480 && 0 ... 400 ~= newArcLength  {
+                        newArcLength = 480
+                    } else if oldLength == 0 && 80 ... 480 ~= newArcLength {
+                        newArcLength = 0
+                    }
+                    oldLength = newArcLength
                     
                     // PERCENTAGE
                     let newPercentage = newArcLength/arcLength
@@ -186,11 +194,34 @@ public class PercentageView: UIView {
         insidePath.lineWidth = CGFloat(30.0)
         insidePath.stroke()
         
+        // GRADIENT
+        let c = UIGraphicsGetCurrentContext()!
+        let clipPath: CGPath = insidePath.cgPath
+
+        c.saveGState()
+        c.setLineWidth(30.0)
+        c.addPath(clipPath)
+        c.replacePathWithStrokedPath()
+        c.clip()
+
+        // Draw gradient
+        let colors = [firstFillColor.cgColor, secondFillColor.cgColor]
+        let offsets = [ CGFloat(0.0), CGFloat(1.0) ]
+        let grad = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: colors as CFArray, locations: offsets)
+        let start = CGPoint(x: 0, y: 0)
+        let end = CGPoint(x: 230, y: 230)
+        c.drawLinearGradient(grad!, start: start, end: end, options: [])
+
+        c.restoreGState()
+
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
         // DRAW THE POINTER
         let pointerRect = CGRect(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2, width: Constants.arcWidth, height: Constants.arcWidth)
         let pointer = UIBezierPath(ovalIn: pointerRect)
         
-        fillColor.setFill()
+        knobColor.setFill()
         pointer.fill()
         insidePath.append(pointer)
         
