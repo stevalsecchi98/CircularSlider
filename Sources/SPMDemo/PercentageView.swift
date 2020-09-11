@@ -117,9 +117,9 @@ public class PercentageView: UIView {
                     } else if 550.0 ... 630.0 ~= newArcLength {
                         newArcLength = 0
                     }
-                     if oldLength == 480 && 0 ... 475 ~= newArcLength  {
+                     if oldLength == 480 && 0 ... 471 ~= newArcLength  {
                         newArcLength = 480
-                    } else if oldLength == 0 && 5 ... 480 ~= newArcLength {
+                    } else if oldLength == 0 && 9 ... 480 ~= newArcLength {
                         newArcLength = 0
                     }
                     oldLength = newArcLength
