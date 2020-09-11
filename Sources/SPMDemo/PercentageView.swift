@@ -202,6 +202,7 @@ public class PercentageView: UIView {
         c.saveGState()
         c.setLineWidth(30.0)
         c.addPath(clipPath)
+        c.setLineCap(.round)
         c.replacePathWithStrokedPath()
         c.clip()
 
