@@ -40,6 +40,9 @@ public class PercentageView: UIView {
     // POSITION
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     
+    var canDrag = false
+    
+    
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
@@ -51,9 +54,9 @@ public class PercentageView: UIView {
                 let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
                 
                 if distance > 30 {
-                    self.isUserInteractionEnabled = false
+                    canDrag = false
                 } else {
-                    self.isUserInteractionEnabled = true
+                    canDrag = true
                 }
             }
         }
@@ -64,13 +67,7 @@ public class PercentageView: UIView {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
-                
-                let xDist = CGFloat(firstTouch.preciseLocation(in: hitView).x - pointerPosition.x)
-                let yDist = CGFloat(firstTouch.preciseLocation(in: hitView).y - pointerPosition.y)
-                let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
-                
-                if distance < 30 {
-                
+                if canDrag == true {
                     let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
                     let radiusBounds = max(bounds.width, bounds.height)
                     let radius = radiusBounds/2 - Constants.arcWidth/2
@@ -92,12 +89,9 @@ public class PercentageView: UIView {
                     print("point x: \(pointX)")
                     print("point y: \(pointY)")
                     
-                    let isOnCircle = dividendx + dividendy == pow(radius, 2)
-                    print("isOnCircle: \(isOnCircle)")
-                    
                     // ARC LENGTH
                     let arcAngle: CGFloat = (2 * .pi) + (.pi / 4) - (3 * .pi / 4)
-                    let arcLength =  arcAngle * radius // (arcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
+                    let arcLength =  arcAngle * radius
                     print("ArcLength: \(arcLength)")
                     
                     // NEW ARC LENGTH
@@ -111,7 +105,7 @@ public class PercentageView: UIView {
                     }
                     print("theta : \(theta)")
                     
-                    var newArcLength =  CGFloat(theta) * radius // (newArcAngle / (2 * .pi)) * (2 * CGFloat.pi * radius)
+                    var newArcLength =  CGFloat(theta) * radius
                     print("newArcLength: \(newArcLength)")
                     
                     if 480.0 ... 550.0 ~= newArcLength {
