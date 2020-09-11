@@ -198,3 +198,4 @@ public class PercentageView: UIView {
         pointerPosition = CGPoint(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2)
     }
 }
+
