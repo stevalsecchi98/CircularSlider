@@ -32,7 +32,8 @@ public class PercentageView: UIView {
         setNeedsDisplay()
       }
     }
-    @IBInspectable public var outlineColor: UIColor = UIColor.yellow { didSet { setNeedsDisplay() } }
+    @IBInspectable public var firstFillColor: UIColor = UIColor.red { didSet { setNeedsDisplay() } }
+    @IBInspectable public var secondFillColor: UIColor = UIColor.yellow { didSet { setNeedsDisplay() } }
     @IBInspectable public var counterColor: UIColor = UIColor.orange { didSet { setNeedsDisplay() } }
     @IBInspectable public var knobColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
     let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 40))
