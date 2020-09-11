@@ -12,29 +12,30 @@ import UIKit
 @available(iOS 9.1, *)
 @IBDesignable
 public class PercentageView: UIView {
-    // CONSTANTS
+    // CONSTANTS FOR DRAWING
     private struct Constants {
         static let max : CGFloat = 1.0
         static let lineWidth: CGFloat = 5.0
         static let arcWidth: CGFloat = 30
         static var halfOfLineWidth: CGFloat { return lineWidth / 2 }
     }
-    
+    // PROGRESS: Indicates the percentage with a number between 0 and 1
     @IBInspectable public var progress: CGFloat = 0.65 {
       didSet {
         if !(0...1).contains(progress) {
-            // clamp: if progress is over 1 or less than 0 give it a number
+            // clamp: if progress is over 1 or less than 0 give it a value between them
             progress = max(0, min(1, progress))
         }
         setNeedsDisplay()
       }
     }
+    // INSPECTABLE VARIABLES TO COLOR EACH ITEM FROM STORYBOARD
     @IBInspectable public var firstFillColor: UIColor = UIColor.red { didSet { setNeedsDisplay() } }
     @IBInspectable public var secondFillColor: UIColor = UIColor.yellow { didSet { setNeedsDisplay() } }
     @IBInspectable public var counterColor: UIColor = UIColor.orange { didSet { setNeedsDisplay() } }
     @IBInspectable public var knobColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
+    // Label init
     let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 40))
-   
     // position to be set everytime the progress is updated
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
     // boolean which chooses if the knob can be dragged or not
@@ -42,29 +43,27 @@ public class PercentageView: UIView {
     // variable that stores the lenght of the arc based on the last touch
     var oldLength : CGFloat = 300
     
-    // TOUCHES BEGAN
+    // TOUCHES BEGAN: if the touch is near thw pointer let it be possible to be dragged
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
-            
             if hitView === self {
-                
+                // distance of touch from pointer
                 let xDist = CGFloat(firstTouch.preciseLocation(in: hitView).x - pointerPosition.x)
                 let yDist = CGFloat(firstTouch.preciseLocation(in: hitView).y - pointerPosition.y)
                 let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
-                
                 canDrag = true
                 guard distance < 30 else { return canDrag = false }
             }
         }
     }
-    // TOUCHES MOVED
+    // TOUCHES MOVED: If touchesBegan says that the pointer can be dragged let it be dregged by the touch of the user
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
-            
             if hitView === self {
                 if canDrag == true {
+                    
                     // CONSTANTS TO BE USED
                     let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
                     let radiusBounds = max(bounds.width, bounds.height)
@@ -77,6 +76,7 @@ public class PercentageView: UIView {
                     let dividendy = pow(touchY, 2) + pow(center.y, 2) - (2 * touchY * center.y)
                     let dividend = sqrt(abs(dividendx) + abs(dividendy))
                     
+                    // POINT(x, y) FOUND
                     let pointX = center.x + ((radius * (touchX - center.x)) / dividend)
                     let pointY = center.y + ((radius * (touchY - center.y)) / dividend)
                     
@@ -93,20 +93,14 @@ public class PercentageView: UIView {
                     }
                     var newArcLength =  CGFloat(theta) * radius
                 
-                    // CHECK CONDITIONS
-                    if 480.0 ... 550.0 ~= newArcLength {
-                        newArcLength = 480
-                    } else if 550.0 ... 630.0 ~= newArcLength {
-                        newArcLength = 0
-                    }
-                    if oldLength == 480 && 0 ... 465 ~= newArcLength  {
-                        newArcLength = 480
-                    } else if oldLength == 0 && 15 ... 480 ~= newArcLength {
-                        newArcLength = 0
-                    }
+                    // CHECK CONDITIONS OF THE POINTER'S POSITION
+                    if 480.0 ... 550.0 ~= newArcLength { newArcLength = 480 }
+                    else if 550.0 ... 630.0 ~= newArcLength { newArcLength = 0 }
+                    if oldLength == 480 && 0 ... 465 ~= newArcLength  { newArcLength = 480 }
+                    else if oldLength == 0 && 15 ... 480 ~= newArcLength { newArcLength = 0 }
                     oldLength = newArcLength
                     
-                    // PERCENTAGE
+                    // PERCENTAGE TO BE ASSIGNED TO THE PROGRES VAR
                     let newPercentage = newArcLength/arcLength
                     progress = CGFloat(newPercentage)
                 }
@@ -129,16 +123,14 @@ public class PercentageView: UIView {
         // call label function
         label()
         
+        //DRAW THE OUTLINE
         // 1 Define the center point you’ll rotate the arc around.
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-
         // 2 Calculate the radius based on the maximum dimension of the view.
         let radius = max(bounds.width, bounds.height)
-
         // 3 Define the start and end angles for the arc.
         let startAngle: CGFloat = 3 * .pi / 4
         let endAngle: CGFloat = .pi / 4
-
         // 4 Create a path based on the center point, radius and angles you defined
         let path = UIBezierPath(
           arcCenter: center,
@@ -146,7 +138,6 @@ public class PercentageView: UIView {
           startAngle: startAngle,
           endAngle: endAngle,
           clockwise: true)
-
         // 5 Set the line width and color before finally stroking the path.
         path.lineCapStyle = .round
         path.lineWidth = Constants.arcWidth
@@ -161,7 +152,6 @@ public class PercentageView: UIView {
         let arcLengthPerGlass = angleDifference / CGFloat(Constants.max)
         //then multiply out by the actual glasses drunk
         let outlineEndAngle = arcLengthPerGlass * CGFloat(progress) + startAngle
-        
         // try to create an inside arc
         // radius is the same as main path
         let insidePath = UIBezierPath(
@@ -170,23 +160,21 @@ public class PercentageView: UIView {
         startAngle: startAngle,
         endAngle: outlineEndAngle,
         clockwise: true)
-        
         //outlineColor.setStroke()
         insidePath.lineCapStyle = .round
         insidePath.lineWidth = CGFloat(30.0)
         insidePath.stroke()
         
-        // GRADIENT
+        // GRADIENT: create a context to clip to the insidePath
+        // graphicContext
         let c = UIGraphicsGetCurrentContext()!
         let clipPath: CGPath = insidePath.cgPath
-
         c.saveGState()
         c.setLineWidth(30.0)
         c.addPath(clipPath)
         c.setLineCap(.round)
         c.replacePathWithStrokedPath()
         c.clip()
-
         // Draw gradient
         let colors = [firstFillColor.cgColor, secondFillColor.cgColor]
         let offsets = [ CGFloat(0.0), CGFloat(1.0) ]
@@ -195,7 +183,7 @@ public class PercentageView: UIView {
         let end = CGPoint(x: 230, y: 230)
         c.drawLinearGradient(grad!, start: start, end: end, options: [])
         c.restoreGState()
-
+        // result
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
