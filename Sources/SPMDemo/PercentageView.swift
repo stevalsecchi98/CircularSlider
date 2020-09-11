@@ -12,15 +12,12 @@ import UIKit
 @available(iOS 9.1, *)
 @IBDesignable
 public class PercentageView: UIView {
-    
+    // CONSTANTS
     private struct Constants {
         static let max : CGFloat = 1.0
         static let lineWidth: CGFloat = 5.0
         static let arcWidth: CGFloat = 30
-    
-        static var halfOfLineWidth: CGFloat {
-            return lineWidth / 2
-        }
+        static var halfOfLineWidth: CGFloat { return lineWidth / 2 }
     }
     
     @IBInspectable public var progress: CGFloat = 0.65 {
@@ -38,15 +35,14 @@ public class PercentageView: UIView {
     @IBInspectable public var knobColor: UIColor = .gray  { didSet { setNeedsDisplay() } }
     let percentageLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 200, height: 40))
    
-    // POSITION
+    // position to be set everytime the progress is updated
     public fileprivate(set) var pointerPosition: CGPoint = CGPoint()
-    
     // boolean which chooses if the knob can be dragged or not
     var canDrag = false
     // variable that stores the lenght of the arc based on the last touch
     var oldLength : CGFloat = 300
     
-    
+    // TOUCHES BEGAN
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
@@ -57,25 +53,22 @@ public class PercentageView: UIView {
                 let yDist = CGFloat(firstTouch.preciseLocation(in: hitView).y - pointerPosition.y)
                 let distance = CGFloat(sqrt((xDist * xDist) + (yDist * yDist)))
                 
-                if distance > 30 {
-                    canDrag = false
-                } else {
-                    canDrag = true
-                }
+                canDrag = true
+                guard distance < 30 else { return canDrag = false }
             }
         }
     }
-    
+    // TOUCHES MOVED
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
             let hitView = self.hitTest(firstTouch.location(in: self), with: event)
             
             if hitView === self {
                 if canDrag == true {
+                    // CONSTANTS TO BE USED
                     let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
                     let radiusBounds = max(bounds.width, bounds.height)
                     let radius = radiusBounds/2 - Constants.arcWidth/2
-                    
                     let touchX = firstTouch.preciseLocation(in: hitView).x
                     let touchY = firstTouch.preciseLocation(in: hitView).y
                     
@@ -83,41 +76,30 @@ public class PercentageView: UIView {
                     let dividendx = pow(touchX, 2) + pow(center.x, 2) - (2 * touchX * center.x)
                     let dividendy = pow(touchY, 2) + pow(center.y, 2) - (2 * touchY * center.y)
                     let dividend = sqrt(abs(dividendx) + abs(dividendy))
-                    print("dividend: \(dividend)")
                     
                     let pointX = center.x + ((radius * (touchX - center.x)) / dividend)
                     let pointY = center.y + ((radius * (touchY - center.y)) / dividend)
                     
-                    print("touch x: \(touchX)")
-                    print("touch y: \(touchY)")
-                    print("point x: \(pointX)")
-                    print("point y: \(pointY)")
-                    
                     // ARC LENGTH
                     let arcAngle: CGFloat = (2 * .pi) + (.pi / 4) - (3 * .pi / 4)
                     let arcLength =  arcAngle * radius
-                    print("ArcLength: \(arcLength)")
                     
                     // NEW ARC LENGTH
-                    
                     let xForTheta = Double(pointX) - Double(center.x)
                     let yForTheta = Double(pointY) - Double(center.y)
                     var theta : Double = atan2(yForTheta, xForTheta) - (3 * .pi / 4)
-                    
                     if theta < 0 {
                         theta += 2 * .pi
                     }
-                    print("theta : \(theta)")
-                    
                     var newArcLength =  CGFloat(theta) * radius
-                    print("newArcLength: \(newArcLength)")
-                    
+                
+                    // CHECK CONDITIONS
                     if 480.0 ... 550.0 ~= newArcLength {
                         newArcLength = 480
                     } else if 550.0 ... 630.0 ~= newArcLength {
                         newArcLength = 0
                     }
-                     if oldLength == 480 && 0 ... 465 ~= newArcLength  {
+                    if oldLength == 480 && 0 ... 465 ~= newArcLength  {
                         newArcLength = 480
                     } else if oldLength == 0 && 15 ... 480 ~= newArcLength {
                         newArcLength = 0
@@ -131,7 +113,7 @@ public class PercentageView: UIView {
             }
         }
     }
-    
+    // LABEL
     public func label() {
         // DRAW THE PERCENTAGE LABEL
         percentageLabel.translatesAutoresizingMaskIntoConstraints = true
@@ -142,7 +124,7 @@ public class PercentageView: UIView {
         let percentage = Int(Double(progress * 100))
         percentageLabel.text = "\(percentage)%"
     }
-    
+    // DRAW
     public override func draw(_ rect: CGRect) {
         // call label function
         label()
@@ -172,7 +154,6 @@ public class PercentageView: UIView {
         path.stroke()
         
         //DRAW THE INLINE
-
         //1 - first calculate the difference between the two angles
         //ensuring it is positive
         let angleDifference: CGFloat = 2 * .pi - startAngle + endAngle
@@ -213,7 +194,6 @@ public class PercentageView: UIView {
         let start = CGPoint(x: 0, y: 0)
         let end = CGPoint(x: 230, y: 230)
         c.drawLinearGradient(grad!, start: start, end: end, options: [])
-
         c.restoreGState()
 
         let result = UIGraphicsGetImageFromCurrentImageContext()
@@ -222,7 +202,6 @@ public class PercentageView: UIView {
         // DRAW THE POINTER
         let pointerRect = CGRect(x: insidePath.currentPoint.x - Constants.arcWidth / 2, y: insidePath.currentPoint.y - Constants.arcWidth / 2, width: Constants.arcWidth, height: Constants.arcWidth)
         let pointer = UIBezierPath(ovalIn: pointerRect)
-        
         knobColor.setFill()
         pointer.fill()
         insidePath.append(pointer)
