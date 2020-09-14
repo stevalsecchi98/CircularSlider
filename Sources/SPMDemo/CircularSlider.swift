@@ -11,7 +11,7 @@ import UIKit
 // PRCENTAGE VIEW
 @available(iOS 9.1, *)
 @IBDesignable
-public class PercentageView: UIView {
+public class CircularSlider: UIView {
     // CONSTANTS FOR DRAWING
     private struct Constants {
         static let max : CGFloat = 1.0
